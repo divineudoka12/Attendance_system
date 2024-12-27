@@ -1,4 +1,4 @@
-import AttendanceLog from './pages/AttendanceLog';
+// import AttendanceLog from './pages/AttendanceLog'
 import Auth from './pages/Auth';
 import CheckInOut from './pages/CheckInOut';
 import Dashboard from './pages/Dashboard';
@@ -15,7 +15,7 @@ function App() {
         <Route path="/faceauth" element={<FacialAuth/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/checkinout" element={<CheckInOut/>}/>
-        <Route path="/attendanceLog" element={<AttendanceLog/>}/>
+        {/* <Route path="/attendanceLog" element={<AttendanceLog/>}/> */}
       </Routes>
     </Router>
   );
