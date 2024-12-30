@@ -161,10 +161,10 @@ const Auth: React.FC = () => {
   };
 
   return (
-    <Layout title="FaceAuth">
+    <Layout title="">
       <div className="max-w-md overflow-hidden md:mx-auto mx-4 bg-white shadow-md rounded-lg">
         <div className="p-6">
-          <h1 className="text-2xl text-center font-bold">Face Recognition</h1>
+          <h1 className="text-2xl text-center font-bold">Check In</h1>
 
           <form className="space-y-6 mt-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
@@ -203,7 +203,7 @@ const Auth: React.FC = () => {
             </div>
             <div>
               <Button type="submit" variant="secondary" className="w-full">
-                Register Face
+                Register
               </Button>
             </div>
           </form>
@@ -214,7 +214,7 @@ const Auth: React.FC = () => {
               variant="default"
               className="w-1/2"
             >
-              Login Face
+              Login
             </Button>
           </div>
         </div>
