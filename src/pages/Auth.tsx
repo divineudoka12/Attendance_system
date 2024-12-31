@@ -5,6 +5,8 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "../Components/Layout";
 import { Button } from "../Components/ui/button";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Define validation schema using yup
 const SignupSchema = yup.object().shape({
@@ -51,14 +53,16 @@ type Iuser = {
 
 const Auth: React.FC = () => {
   const [faceio, setFaceio] = useState<FaceIO | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [_error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  
+  const publicId =  import.meta.env.VITE_PUBLIC_ID;
 
   // Initialize FaceIO instance
   useEffect(() => {
     const initializeFaceIO = () => {
       try {
-        const faceioInstance = new faceIO("fioac691");
+        const faceioInstance = new faceIO(publicId);
         setFaceio(faceioInstance);
       } catch (err: any) {
         setError("Failed to initialize FaceIO: " + err.message);
@@ -154,73 +158,76 @@ const Auth: React.FC = () => {
       SESSION_IN_PROGRESS: "Another session is already in progress.",
       NETWORK_IO: "Network connection error with FaceIO.",
     };
-
-    const message = errorMessages[errCode] || "An unknown error occurred.";
+  
+    const message = errorMessages[errCode] || "An unknown error occurred refresh the page.";
     setError(message);
+    toast.error(message);
     console.error("FaceIO Error:", message);
   };
+  
 
   return (
     <Layout title="">
-      <div className="max-w-md overflow-hidden md:mx-auto mx-4 bg-white shadow-md rounded-lg">
-        <div className="p-6">
-          <h1 className="text-2xl text-center font-bold">Check In</h1>
+    <div className="max-w-md overflow-hidden md:mx-auto mx-4 bg-white shadow-md rounded-lg">
+      <div className="p-6">
+        <h1 className="text-2xl text-center font-bold">Check In</h1>
 
-          <form className="space-y-6 mt-6" onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label
-                htmlFor="name"
-                className="text-sm font-bold text-gray-600 block"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                placeholder="Name"
-                {...register("name")}
-                className="w-full p-2 border border-blue-900 rounded mt-1"
-              />
-              {errors.name && (
-                <p className="text-red-900">{errors.name.message}</p>
-              )}
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="text-sm font-bold text-gray-600 block"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="email@mail.com"
-                {...register("email")}
-                className="w-full p-2 border border-blue-900 rounded mt-1"
-              />
-              {errors.email && (
-                <p className="text-red-900">{errors.email.message}</p>
-              )}
-            </div>
-            <div>
-              <Button type="submit" variant="secondary" className="w-full">
-                Register
-              </Button>
-            </div>
-          </form>
-
-          <div className="flex flex-wrap justify-center gap-4 py-10">
-            <Button
-              onClick={handleAuthenticate}
-              variant="default"
-              className="w-1/2"
+        <form className="space-y-6 mt-6" onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <label
+              htmlFor="name"
+              className="text-sm font-bold text-gray-600 block"
             >
-              Login
+              Name
+            </label>
+            <input
+              type="text"
+              placeholder="Name"
+              {...register("name")}
+              className="w-full p-2 border border-blue-900 rounded mt-1"
+            />
+            {errors.name && (
+              <p className="text-red-900">{errors.name.message}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="text-sm font-bold text-gray-600 block"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              placeholder="email@mail.com"
+              {...register("email")}
+              className="w-full p-2 border border-blue-900 rounded mt-1"
+            />
+            {errors.email && (
+              <p className="text-red-900">{errors.email.message}</p>
+            )}
+          </div>
+          <div>
+            <Button type="submit" variant="secondary" className="w-full">
+              Register
             </Button>
           </div>
+        </form>
+
+        <div className="flex flex-wrap justify-center gap-4 py-10">
+          <Button
+            onClick={handleAuthenticate}
+            variant="default"
+            className="w-1/2"
+          >
+            Login
+          </Button>
         </div>
       </div>
-      {error && <div className="text-red-600">{error}</div>}
-    </Layout>
+    </div>
+
+    <ToastContainer position="top-center" autoClose={5000} />
+  </Layout>
   );
 };
 
